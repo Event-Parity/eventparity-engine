@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Anasabubakar/eventparity-engine/schema/report.v1.schema.json",
+  "title": "EventParity report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reportVersion", "tool", "generatedAt", "scope", "requested", "compared", "reference", "candidate", "verdict", "matched", "notComparedInGaps", "differences", "unsupportedNotCompared", "limitations"],
+  "properties": {
+    "reportVersion": { "const": "1" },
+    "tool": { "type": "object", "additionalProperties": false, "required": ["name", "version"], "properties": { "name": { "type": "string" }, "version": { "type": "string" } } },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "scope": { "const": "classic-payments" },
+    "requested": { "$ref": "#/$defs/range" },
+    "compared": { "type": "array", "items": { "$ref": "#/$defs/range" } },
+    "reference": { "$ref": "#/$defs/side" },
+    "candidate": { "$ref": "#/$defs/side" },
+    "verdict": { "enum": ["parity", "differences", "inconclusive"] },
+    "matched": { "type": "integer", "minimum": 0 },
+    "notComparedInGaps": { "type": "integer", "minimum": 0 },
+    "differences": { "type": "array", "items": { "$ref": "#/$defs/difference" } },
+    "unsupportedNotCompared": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": false, "required": ["opType", "reference", "candidate"], "properties": { "opType": { "type": "string" }, "reference": { "type": "integer", "minimum": 0 }, "candidate": { "type": "integer", "minimum": 0 } } }
+    },
+    "limitations": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+  },
+  "$defs": {
+    "range": { "type": "object", "additionalProperties": false, "required": ["from", "to"], "properties": { "from": { "type": "integer", "minimum": 1 }, "to": { "type": "integer", "minimum": 1 } } },
+    "gap": { "type": "object", "additionalProperties": false, "required": ["from", "to", "reason"], "properties": { "from": { "type": "integer", "minimum": 1 }, "to": { "type": "integer", "minimum": 1 }, "reason": { "type": "string", "minLength": 1 } } },
+    "side": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "adapter", "provider", "covered", "gaps", "payments", "streamSha256"],
+      "properties": {
+        "name": { "type": "string" },
+        "adapter": { "type": "string" },
+        "provider": { "type": "string" },
+        "network": { "type": "string" },
+        "covered": { "type": "array", "items": { "$ref": "#/$defs/range" } },
+        "gaps": { "type": "array", "items": { "$ref": "#/$defs/gap" } },
+        "payments": { "type": "integer", "minimum": 0 },
+        "streamSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": { "type": { "enum": ["native", "credit"] }, "code": { "type": "string" }, "issuer": { "type": "string" } }
+    },
+    "payment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ledger", "applicationOrder", "txHash", "opIndex", "from", "to", "asset", "amount"],
+      "properties": {
+        "ledger": { "type": "integer", "minimum": 1 },
+        "applicationOrder": { "type": "integer", "minimum": 0 },
+        "txHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "opIndex": { "type": "integer", "minimum": 0 },
+        "from": { "type": "string" },
+        "fromMuxedId": { "type": "string" },
+        "to": { "type": "string" },
+        "toMuxedId": { "type": "string" },
+        "asset": { "$ref": "#/$defs/asset" },
+        "amount": { "type": "string", "pattern": "^[0-9]+\\.[0-9]{7}$" }
+      }
+    },
+    "difference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class", "key", "ledger", "note"],
+      "properties": {
+        "class": { "enum": ["missing_in_candidate", "missing_in_reference", "duplicated_in_candidate", "duplicated_in_reference", "reinterpreted"] },
+        "key": { "type": "string" },
+        "ledger": { "type": "integer", "minimum": 1 },
+        "reference": { "type": "array", "items": { "$ref": "#/$defs/payment" } },
+        "candidate": { "type": "array", "items": { "$ref": "#/$defs/payment" } },
+        "fields": { "type": "array", "items": { "type": "string" } },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}
