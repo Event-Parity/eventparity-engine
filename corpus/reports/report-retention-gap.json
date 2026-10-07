@@ -1,0 +1,67 @@
+{
+  "reportVersion": "1",
+  "tool": {
+    "name": "eventparity-engine",
+    "version": "0.1.0"
+  },
+  "generatedAt": "2026-10-07T00:00:00Z",
+  "scope": "classic-payments",
+  "requested": {
+    "from": 4950790,
+    "to": 4950810
+  },
+  "compared": [
+    {
+      "from": 4950802,
+      "to": 4950810
+    }
+  ],
+  "reference": {
+    "name": "corpus/retention-gap-2026-10-07/horizon.jsonl",
+    "adapter": "horizon",
+    "provider": "https://horizon-testnet.stellar.org",
+    "network": "Test SDF Network ; September 2015",
+    "covered": [
+      {
+        "from": 4950790,
+        "to": 4950810
+      }
+    ],
+    "gaps": [],
+    "payments": 21,
+    "streamSha256": "b32ac3f74d234139b6ac669d398f4da7ce463a7ce966d0c7b712504a4c38349e"
+  },
+  "candidate": {
+    "name": "corpus/retention-gap-2026-10-07/rpc.jsonl",
+    "adapter": "rpc",
+    "provider": "https://soroban-testnet.stellar.org",
+    "network": "Test SDF Network ; September 2015",
+    "covered": [
+      {
+        "from": 4950802,
+        "to": 4950810
+      }
+    ],
+    "gaps": [
+      {
+        "from": 4950790,
+        "to": 4950801,
+        "reason": "before the provider's oldest available ledger (4950802)"
+      }
+    ],
+    "payments": 10,
+    "streamSha256": "f81608e99fc0d5986aef03afd2974fc6a7c09310ef6d16369e04840877f8f7f8"
+  },
+  "verdict": "inconclusive",
+  "matched": 10,
+  "notComparedInGaps": 11,
+  "differences": [],
+  "unsupportedNotCompared": [],
+  "limitations": [
+    "Version 1 compares classic `payment` operations only. Path payments, account creation, offers, trustlines and Soroban operations are counted by type and not compared one by one.",
+    "RPC events do not reproduce every Horizon effect, balance or history record, and this tool does not claim they do.",
+    "Parity means: in the ledgers both sources covered, every classic payment matched on all compared fields. It says nothing about ledgers in coverage gaps.",
+    "Provider history windows are finite. A ledger a source could not serve is a coverage gap, never evidence of a missing payment.",
+    "A finite comparison over a ledger range is evidence about that range. It is not a proof about other ledgers or other operation types."
+  ]
+}

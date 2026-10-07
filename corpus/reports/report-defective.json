@@ -1,0 +1,120 @@
+{
+  "reportVersion": "1",
+  "tool": {
+    "name": "eventparity-engine",
+    "version": "0.1.0"
+  },
+  "generatedAt": "2026-10-07T00:00:00Z",
+  "scope": "classic-payments",
+  "requested": {
+    "from": 5071650,
+    "to": 5071658
+  },
+  "compared": [
+    {
+      "from": 5071650,
+      "to": 5071658
+    }
+  ],
+  "reference": {
+    "name": "corpus/testnet-2026-10-07/horizon.jsonl",
+    "adapter": "horizon",
+    "provider": "https://horizon-testnet.stellar.org",
+    "network": "Test SDF Network ; September 2015",
+    "covered": [
+      {
+        "from": 5071650,
+        "to": 5071658
+      }
+    ],
+    "gaps": [],
+    "payments": 10,
+    "streamSha256": "eac938ff42c201c24bf14cec1a76338424dee9f9490d2670bbca68cd5366b237"
+  },
+  "candidate": {
+    "name": "corpus/testnet-2026-10-07/candidate-defective.jsonl",
+    "adapter": "candidate",
+    "provider": "mutated copy of horizon",
+    "network": "Test SDF Network ; September 2015",
+    "covered": [
+      {
+        "from": 5071650,
+        "to": 5071658
+      }
+    ],
+    "gaps": [],
+    "payments": 10,
+    "streamSha256": "acd3e943ffadbb5f0ded4d3674c8a20a20f4bf2fd6b518573ea80d36b5620c77"
+  },
+  "verdict": "differences",
+  "matched": 9,
+  "notComparedInGaps": 0,
+  "differences": [
+    {
+      "class": "missing_in_candidate",
+      "key": "7024ffc7195b4b2295b075375c42419e39c37a902fd9b5141e487657fb4b2ae6:0",
+      "ledger": 5071653,
+      "reference": [
+        {
+          "ledger": 5071653,
+          "applicationOrder": 2,
+          "txHash": "7024ffc7195b4b2295b075375c42419e39c37a902fd9b5141e487657fb4b2ae6",
+          "opIndex": 0,
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "asset": {
+            "type": "credit",
+            "code": "USDX",
+            "issuer": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2"
+          },
+          "amount": "5.0000000"
+        }
+      ],
+      "note": "The reference shows this payment and the candidate, which covered this ledger, does not."
+    },
+    {
+      "class": "duplicated_in_candidate",
+      "key": "35308107ee38795d1d2e734407245ca50797ab97aaa3ccd16ca60e7ee7fba3e5:1",
+      "ledger": 5071654,
+      "candidate": [
+        {
+          "ledger": 5071654,
+          "applicationOrder": 2,
+          "txHash": "35308107ee38795d1d2e734407245ca50797ab97aaa3ccd16ca60e7ee7fba3e5",
+          "opIndex": 1,
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "asset": {
+            "type": "credit",
+            "code": "USDX",
+            "issuer": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2"
+          },
+          "amount": "2.0000000"
+        },
+        {
+          "ledger": 5071654,
+          "applicationOrder": 2,
+          "txHash": "35308107ee38795d1d2e734407245ca50797ab97aaa3ccd16ca60e7ee7fba3e5",
+          "opIndex": 1,
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "asset": {
+            "type": "credit",
+            "code": "USDX",
+            "issuer": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2"
+          },
+          "amount": "2.0000000"
+        }
+      ],
+      "note": "The candidate contains this operation 2 times."
+    }
+  ],
+  "unsupportedNotCompared": [],
+  "limitations": [
+    "Version 1 compares classic `payment` operations only. Path payments, account creation, offers, trustlines and Soroban operations are counted by type and not compared one by one.",
+    "RPC events do not reproduce every Horizon effect, balance or history record, and this tool does not claim they do.",
+    "Parity means: in the ledgers both sources covered, every classic payment matched on all compared fields. It says nothing about ledgers in coverage gaps.",
+    "Provider history windows are finite. A ledger a source could not serve is a coverage gap, never evidence of a missing payment.",
+    "A finite comparison over a ledger range is evidence about that range. It is not a proof about other ledgers or other operation types."
+  ]
+}

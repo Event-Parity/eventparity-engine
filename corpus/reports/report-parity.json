@@ -1,0 +1,61 @@
+{
+  "reportVersion": "1",
+  "tool": {
+    "name": "eventparity-engine",
+    "version": "0.1.0"
+  },
+  "generatedAt": "2026-10-07T00:00:00Z",
+  "scope": "classic-payments",
+  "requested": {
+    "from": 5071650,
+    "to": 5071658
+  },
+  "compared": [
+    {
+      "from": 5071650,
+      "to": 5071658
+    }
+  ],
+  "reference": {
+    "name": "corpus/testnet-2026-10-07/horizon.jsonl",
+    "adapter": "horizon",
+    "provider": "https://horizon-testnet.stellar.org",
+    "network": "Test SDF Network ; September 2015",
+    "covered": [
+      {
+        "from": 5071650,
+        "to": 5071658
+      }
+    ],
+    "gaps": [],
+    "payments": 10,
+    "streamSha256": "eac938ff42c201c24bf14cec1a76338424dee9f9490d2670bbca68cd5366b237"
+  },
+  "candidate": {
+    "name": "corpus/testnet-2026-10-07/rpc.jsonl",
+    "adapter": "rpc",
+    "provider": "https://soroban-testnet.stellar.org",
+    "network": "Test SDF Network ; September 2015",
+    "covered": [
+      {
+        "from": 5071650,
+        "to": 5071658
+      }
+    ],
+    "gaps": [],
+    "payments": 10,
+    "streamSha256": "71bbb0b4bc8733808415c8eeeb507041ee6f05eb477ca9661d729b1d2adb2f93"
+  },
+  "verdict": "parity",
+  "matched": 10,
+  "notComparedInGaps": 0,
+  "differences": [],
+  "unsupportedNotCompared": [],
+  "limitations": [
+    "Version 1 compares classic `payment` operations only. Path payments, account creation, offers, trustlines and Soroban operations are counted by type and not compared one by one.",
+    "RPC events do not reproduce every Horizon effect, balance or history record, and this tool does not claim they do.",
+    "Parity means: in the ledgers both sources covered, every classic payment matched on all compared fields. It says nothing about ledgers in coverage gaps.",
+    "Provider history windows are finite. A ledger a source could not serve is a coverage gap, never evidence of a missing payment.",
+    "A finite comparison over a ledger range is evidence about that range. It is not a proof about other ledgers or other operation types."
+  ]
+}
