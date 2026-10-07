@@ -1,0 +1,23 @@
+{
+ "method": "POST",
+ "url": "https://soroban-testnet.stellar.org",
+ "request": {
+  "id": 1,
+  "jsonrpc": "2.0",
+  "method": "getHealth",
+  "params": {}
+ },
+ "status": 200,
+ "response": {
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+   "latestLedger": 5071761,
+   "latestLedgerCloseTime": "1791382392",
+   "ledgerRetentionWindow": 120960,
+   "oldestLedger": 4950802,
+   "oldestLedgerCloseTime": "1790777597",
+   "status": "healthy"
+  }
+ }
+}
