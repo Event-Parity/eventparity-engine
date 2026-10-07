@@ -1,0 +1,194 @@
+{
+  "network": "Test SDF Network ; September 2015",
+  "created": "2026-10-07T14:03:55Z",
+  "issuer": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2",
+  "alice": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+  "bob": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+  "txs": [
+    {
+      "label": "trustlines",
+      "hash": "79cc1ba2a38e512f5046d43d4bfeea84b110eed7531460eb70d6efced16d647b",
+      "ledger": 5071650,
+      "applicationOrder": 1,
+      "successful": true,
+      "feeBump": false,
+      "ops": [
+        {
+          "index": 0,
+          "type": "change_trust"
+        },
+        {
+          "index": 1,
+          "type": "change_trust"
+        }
+      ]
+    },
+    {
+      "label": "issue-usdx",
+      "hash": "388f81dacb40c9bfcdaca66ed135b4bb8a401fea1936f8b49dfb40dde514a1f7",
+      "ledger": 5071651,
+      "applicationOrder": 2,
+      "successful": true,
+      "feeBump": false,
+      "ops": [
+        {
+          "index": 0,
+          "type": "payment",
+          "from": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2",
+          "to": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "assetType": "credit",
+          "assetCode": "USDX",
+          "assetIssuer": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2",
+          "amount": "1000.0000000"
+        }
+      ]
+    },
+    {
+      "label": "native-seven-decimals",
+      "hash": "9370b66884f251d0090fe30a55881b6e70a019ad229bda76122833e12a5507a8",
+      "ledger": 5071652,
+      "applicationOrder": 3,
+      "successful": true,
+      "feeBump": false,
+      "ops": [
+        {
+          "index": 0,
+          "type": "payment",
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "assetType": "native",
+          "amount": "12.3456789"
+        }
+      ]
+    },
+    {
+      "label": "issued-asset-payment",
+      "hash": "7024ffc7195b4b2295b075375c42419e39c37a902fd9b5141e487657fb4b2ae6",
+      "ledger": 5071653,
+      "applicationOrder": 2,
+      "successful": true,
+      "feeBump": false,
+      "ops": [
+        {
+          "index": 0,
+          "type": "payment",
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "assetType": "credit",
+          "assetCode": "USDX",
+          "assetIssuer": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2",
+          "amount": "5.0000000"
+        }
+      ]
+    },
+    {
+      "label": "multi-op-with-unsupported",
+      "hash": "35308107ee38795d1d2e734407245ca50797ab97aaa3ccd16ca60e7ee7fba3e5",
+      "ledger": 5071654,
+      "applicationOrder": 2,
+      "successful": true,
+      "feeBump": false,
+      "ops": [
+        {
+          "index": 0,
+          "type": "payment",
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "assetType": "native",
+          "amount": "1.5000000"
+        },
+        {
+          "index": 1,
+          "type": "payment",
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "assetType": "credit",
+          "assetCode": "USDX",
+          "assetIssuer": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2",
+          "amount": "2.0000000"
+        },
+        {
+          "index": 2,
+          "type": "manage_data"
+        },
+        {
+          "index": 3,
+          "type": "payment",
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "assetType": "native",
+          "amount": "0.0000001"
+        }
+      ]
+    },
+    {
+      "label": "path-payment-unsupported",
+      "hash": "e303b889e7d747becd633fbcc1997a048221c8ad30cd6ac28ebdaa4ba08726e8",
+      "ledger": 5071655,
+      "applicationOrder": 2,
+      "successful": true,
+      "feeBump": false,
+      "ops": [
+        {
+          "index": 0,
+          "type": "path_payment_strict_send"
+        }
+      ]
+    },
+    {
+      "label": "failed-underfunded",
+      "hash": "375c75fa60909e35b2e4c7af97252e50002f027670bca12dcb413afbca360d1a",
+      "ledger": 5071656,
+      "applicationOrder": 3,
+      "successful": false,
+      "feeBump": false,
+      "ops": [
+        {
+          "index": 0,
+          "type": "payment",
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "assetType": "native",
+          "amount": "999999999.0000000"
+        }
+      ]
+    },
+    {
+      "label": "muxed-destination",
+      "hash": "73e304d9267a95e911a5f2947214f52453cbb3e4f02ae7e727051ca306554d38",
+      "ledger": 5071657,
+      "applicationOrder": 1,
+      "successful": true,
+      "feeBump": false,
+      "ops": [
+        {
+          "index": 0,
+          "type": "payment",
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "toMuxedId": "42",
+          "assetType": "native",
+          "amount": "0.5000000"
+        }
+      ]
+    },
+    {
+      "label": "fee-bump",
+      "hash": "25407aa06bfa96c40910ecc54af52b53bdda7bfe563636a329377b1b67b44a59",
+      "ledger": 5071658,
+      "applicationOrder": 2,
+      "successful": true,
+      "feeBump": true,
+      "ops": [
+        {
+          "index": 0,
+          "type": "payment",
+          "from": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+          "to": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+          "assetType": "native",
+          "amount": "0.2500000"
+        }
+      ]
+    }
+  ]
+}
