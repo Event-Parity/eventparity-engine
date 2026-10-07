@@ -4,7 +4,6 @@ package horizon
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -18,7 +17,7 @@ import (
 )
 
 // ErrNotFound means Horizon has no record of the ledger (outside its history), which is a coverage gap.
-var ErrNotFound = errors.New("horizon: ledger not found")
+var ErrNotFound = fmt.Errorf("horizon: ledger not found: %w", source.ErrHistoryUnavailable)
 
 // Client implements source.Source.
 type Client struct {

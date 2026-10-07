@@ -3,11 +3,16 @@ package source
 
 import (
 	"context"
+	"errors"
 	"regexp"
 	"strings"
 
 	"github.com/Anasabubakar/eventparity-engine/internal/model"
 )
+
+// ErrHistoryUnavailable means the provider cannot serve a ledger (outside its retention or history). Adapters wrap it;
+// the ingest runner turns it into a recorded coverage gap and never into "no payments".
+var ErrHistoryUnavailable = errors.New("provider history unavailable for this ledger")
 
 // Bounds is the ledger window a provider can currently serve.
 type Bounds struct {

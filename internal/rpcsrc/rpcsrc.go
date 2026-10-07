@@ -86,7 +86,7 @@ type rpcError struct {
 func (e *rpcError) Error() string { return fmt.Sprintf("rpc error %d: %s", e.Code, e.Message) }
 
 // ErrOutOfRetention reports that RPC refused a start ledger outside the window it serves.
-var ErrOutOfRetention = errors.New("rpc: start ledger is outside the provider's retention window")
+var ErrOutOfRetention = fmt.Errorf("rpc: start ledger is outside the provider's retention window: %w", source.ErrHistoryUnavailable)
 
 func (c *Client) call(ctx context.Context, method string, params any, out any) error {
 	c.defaults()
