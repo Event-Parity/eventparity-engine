@@ -1,0 +1,317 @@
+{
+ "method": "GET",
+ "url": "https://horizon-testnet.stellar.org/ledgers/5071650/operations?limit=200\u0026order=asc\u0026include_failed=false",
+ "status": 200,
+ "response": {
+  "_embedded": {
+   "records": [
+    {
+     "asset_code": "USDX",
+     "asset_issuer": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2",
+     "asset_type": "credit_alphanum4",
+     "created_at": "2026-10-07T14:03:57Z",
+     "id": "21782570886762497",
+     "limit": "100000.0000000",
+     "paging_token": "21782570886762497",
+     "source_account": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+     "transaction_hash": "79cc1ba2a38e512f5046d43d4bfeea84b110eed7531460eb70d6efced16d647b",
+     "transaction_successful": true,
+     "trustee": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2",
+     "trustor": "GAUGPIMKP4ZQ22FEUGDSTBJWTGIS5LDB5ZYUSQI33G37DFWLTY34OFAZ",
+     "type": "change_trust",
+     "type_i": 6
+    },
+    {
+     "asset_code": "USDX",
+     "asset_issuer": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2",
+     "asset_type": "credit_alphanum4",
+     "created_at": "2026-10-07T14:03:57Z",
+     "id": "21782570886762498",
+     "limit": "100000.0000000",
+     "paging_token": "21782570886762498",
+     "source_account": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+     "transaction_hash": "79cc1ba2a38e512f5046d43d4bfeea84b110eed7531460eb70d6efced16d647b",
+     "transaction_successful": true,
+     "trustee": "GDM3YHMRTRHLXI4MHQSMT4N42TAGPFCMSMZPO7UHJ4I7ZHZ5MVWXGPK2",
+     "trustor": "GBYFGKRQVWELTTR3425EQXZP4US5KSHAMJUQNH42AYUI54IJN6M4RQB4",
+     "type": "change_trust",
+     "type_i": 6
+    },
+    {
+     "address": "",
+     "asset_balance_changes": null,
+     "created_at": "2026-10-07T14:03:57Z",
+     "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+     "id": "21782570886766593",
+     "paging_token": "21782570886766593",
+     "parameters": [
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAH+hstJ29XvwwLV45AiIo4wsY+VNFPbKvb8u5wNOgluBw=="
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAAlzZXRfcHJpY2UAAAA="
+      },
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAAAAAAAl2Uc5zBdi7JyKFLTCKSyIcbmwDZj4zw8atklhxblH7Y="
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAAZYTE1VU0QAAA=="
+      },
+      {
+       "type": "I128",
+       "value": "AAAACgAAAAAAAAAAAAAAAAAeyNs="
+      }
+     ],
+     "salt": "",
+     "source_account": "GCLWKHHHGBOYXMTSFBJNGCFEWIQ4NZWAGZR6GPB4NLMSLBYW4UP3N4SQ",
+     "transaction_hash": "e392d78b882201a91e293464e37c0964f6a6897dbc243eac2292d9f3ea984471",
+     "transaction_successful": true,
+     "type": "invoke_host_function",
+     "type_i": 24
+    },
+    {
+     "address": "",
+     "asset_balance_changes": null,
+     "created_at": "2026-10-07T14:03:57Z",
+     "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+     "id": "21782570886770689",
+     "paging_token": "21782570886770689",
+     "parameters": [
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAHRrEyiGQEVDcmU3nalCavUyP3X9gXJ0eXYDbjCve2Y1w=="
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAA1jcmVhdGVfYXR0YWNoAAAA"
+      },
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAAAAAAAs+Ew54gRkVP7JOlPhumpnxmZMjbNziQoS5pdNO2dGRs="
+      },
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAAAAAAAV1sjxhmTFLvetbhfYiIUT8zHAGrLpT6PApeouqpPJZw="
+      },
+      {
+       "type": "Bytes",
+       "value": "AAAADQAAAEAv6IJNIEeL4DUt8ZqH9juuVeYE2ii6v8YYcC1vh6RUJA+VAA/eHyqoDwWD9WbFvDeBUuLKZH3sg7dphGx1kisJ"
+      },
+      {
+       "type": "Bytes",
+       "value": "AAAADQAAAInu2G/16tyvYH0cUfoKWjBrOSOUQePMw5XsxJgFiceHWm57vJYDt7eJmxaY7L4Eg8AVeFO29BGwc2pCTIJY8tBBS+HoGVULt+EK3HiHPAeZaMcKljNLU3alXfoKafmI7nxUH5ZkYHcsYw46xN8KEi9ZAHABxgKCCznUIYycvIOhmMMeLzPiGSt5bAAAAA=="
+      },
+      {
+       "type": "Bytes",
+       "value": "AAAADQAAAInyZ59RjRkWeN2w3TSiyPJRGxh7P4eYvgCHhr3DK7qoZ1CqHwrPZ/BX4KDVCGb+aauf71Y84J6KMuvQR9ULpwOoRJZQ7tcxJiZ/ADZSGmATOVQuka4VzqilI4Va8rLUu+YusSOQmaxASCMhRJIXOVXAPVRlFXFMiVkwurJxXGcmxWi5hykQRQCTpAAAAA=="
+      },
+      {
+       "type": "Bytes",
+       "value": "AAAADQAAAImuOoYf3Ayqt4XmW/bev1G9gkTSbuy6HHhENecsku02NKxvVNORcboMsaHMUcNcqluhu2pbDlLzwd5oxDLE74KVXNx5Ahe3sv1hBGvOfje81SROK/aNhdytW6goiU7tJERrIDw4w43BYkXMHj3Ergz1vojAuccwPCleWiOCJLDPML9p79QICvIj4AAAAA=="
+      },
+      {
+       "type": "Bytes",
+       "value": "AAAADQAAACDjsMRCmPwcFJr79MiZb7kkJ65B5GSbk0yklZkbeFK4VQ=="
+      },
+      {
+       "type": "Bytes",
+       "value": "AAAADQAAACCXMuAI1UEiJdpyREzCxJjP9rEjsAxJGIYNFNtNbQpTrg=="
+      },
+      {
+       "type": "Str",
+       "value": "AAAADgAAABVTdHJlc3MgSW52b2ljZSA5MTg5MjgAAAA="
+      },
+      {
+       "type": "Str",
+       "value": "AAAADgAAAAdJTlYxOTI0AA=="
+      },
+      {
+       "type": "Vec",
+       "value": "AAAAEAAAAAEAAAACAAAABQAAAAAAAAABAAAABQAAAAAAAAAC"
+      }
+     ],
+     "salt": "",
+     "source_account": "GDVCG64PBIG6Q3AUXYNK7SEG5O2NECMH26WFIDDXFMMIP62SLUC35GQT",
+     "transaction_hash": "3c08cddf4d916e7abdc06f5d82e65ed736dc302753e76cf06bfd2a3f2ac2a077",
+     "transaction_successful": true,
+     "type": "invoke_host_function",
+     "type_i": 24
+    },
+    {
+     "address": "",
+     "asset_balance_changes": null,
+     "created_at": "2026-10-07T14:03:57Z",
+     "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+     "id": "21782570886774785",
+     "paging_token": "21782570886774785",
+     "parameters": [
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAEsGL44ddkGiHNOIYqr18GViSrkKASCntgXVJx2Q1ygyw=="
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAA5zeW5jX2Fzc2V0X3BubAAA"
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAANVTkkA"
+      }
+     ],
+     "salt": "",
+     "source_account": "GDUQ3DXGSNRGPNNGHLKXLSVPRC3V2PAYMP6ITW3ICSRLF64KVOTPA6AT",
+     "transaction_hash": "195134057e9389b99a118db29032908be4289b8c26cf6fa64b84b236a90a7c67",
+     "transaction_successful": true,
+     "type": "invoke_host_function",
+     "type_i": 24
+    },
+    {
+     "address": "",
+     "asset_balance_changes": null,
+     "created_at": "2026-10-07T14:03:57Z",
+     "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+     "id": "21782570886778881",
+     "paging_token": "21782570886778881",
+     "parameters": [
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAEAvocghu2jdFm/D1XZsEJRKHtZbe+BX0tzTcKVcY4Jhw=="
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAAlzZXRfcHJpY2UAAAA="
+      },
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAAAAAAACQ6ijYTtv12QL5kdVsp5tpcXyFEMAekw86jVTpUIEE4="
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAAZCVENVU0QAAA=="
+      },
+      {
+       "type": "I128",
+       "value": "AAAACgAAAAAAAAAAAAAAwaEKYKA="
+      }
+     ],
+     "salt": "",
+     "source_account": "GAEQ5IUNQTW36XMQF6MR2VWKPG3JOF6IKEGAD2JQ6OUNKTUVBAIE5AO3",
+     "transaction_hash": "7fa9a605e7f9d95c76fd29b2ca15e871f5da985a153f52fc906a9c5896ff0d1e",
+     "transaction_successful": true,
+     "type": "invoke_host_function",
+     "type_i": 24
+    },
+    {
+     "address": "",
+     "asset_balance_changes": null,
+     "created_at": "2026-10-07T14:03:57Z",
+     "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+     "id": "21782570886782977",
+     "paging_token": "21782570886782977",
+     "parameters": [
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAFOexQYWHcrpETW9DF6zZK/xASOi4BhI0AoQaP1sHH0rA=="
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAA5zeW5jX2Fzc2V0X3BubAAA"
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAANYUlAA"
+      }
+     ],
+     "salt": "",
+     "source_account": "GBYHKEYCYLCF6JTM3FPCVGOVVQS4JU7FEKGTVRQT7CWJHHDK6F5MW4UV",
+     "transaction_hash": "6453963eecf33ddb4bb9cdbd62a7d31bf98ca6c92f953f9f40c181d090a56940",
+     "transaction_successful": true,
+     "type": "invoke_host_function",
+     "type_i": 24
+    },
+    {
+     "address": "",
+     "asset_balance_changes": null,
+     "created_at": "2026-10-07T14:03:57Z",
+     "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+     "id": "21782570886787073",
+     "paging_token": "21782570886787073",
+     "parameters": [
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAHBaehuw6XXYiPDEgDxmsBDTrGMzgE4EWvb1M9VfFvKfA=="
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAApkZWxldmVyYWdlAAA="
+      },
+      {
+       "type": "U32",
+       "value": "AAAAAwAAAAI="
+      }
+     ],
+     "salt": "",
+     "source_account": "GBMXYW3KEKEUWH7YAN62D6UOPXEFXP7XSZ24YTLIGVNZSSNPNRIEMI2L",
+     "transaction_hash": "717562a970e9596d71c73b3a1d5f3fdf8d678d8a2a8c9020ac4457b23be1092e",
+     "transaction_successful": true,
+     "type": "invoke_host_function",
+     "type_i": 24
+    },
+    {
+     "address": "",
+     "asset_balance_changes": null,
+     "created_at": "2026-10-07T14:03:57Z",
+     "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+     "id": "21782570886791169",
+     "paging_token": "21782570886791169",
+     "parameters": [
+      {
+       "type": "Address",
+       "value": "AAAAEgAAAAEJIX5C6S3X6ftDOw+T3MtGCdZN6Xv2zEfpPmTF42f8og=="
+      },
+      {
+       "type": "Sym",
+       "value": "AAAADwAAAARwdXNo"
+      },
+      {
+       "type": "U64",
+       "value": "AAAABQAAAAAB9WVh"
+      },
+      {
+       "type": "Bytes",
+       "value": "AAAADQAAADCyf0rNe7/7OWAv9Mt7PV4f3ljwx8fYEegXvUtGBplI+xahOOm5snLkMBUo4nfzM3s="
+      },
+      {
+       "type": "Bytes",
+       "value": "AAAADQAAAGASf0rNe7/7OWAv9Mt7PV4f3ljwx8fYEegXvUtGBplI+xahOOm5snLkMBUo4nfzM3sSuVlYw84ioGyKfVddGkHHHfnsrn8571jnsa4YuqZ2zKEjyaBkn7r2EwNw7eaUcFQ="
+      }
+     ],
+     "salt": "",
+     "source_account": "GAGMSM3BKRHLXLJUE7ZDCXMPKL6YSUUMW5DGWL4EIBU4B32KYY6OB3MZ",
+     "transaction_hash": "235f8ebdcad1a98d3ac9fb42c8d10b413acfab7297b71dd1b8b3a8fd40d7f451",
+     "transaction_successful": true,
+     "type": "invoke_host_function",
+     "type_i": 24
+    }
+   ]
+  },
+  "_links": {
+   "next": {
+    "href": "https://horizon-testnet.stellar.org/ledgers/5071650/operations?cursor=21782570886791169\u0026include_failed=false\u0026limit=200\u0026order=asc"
+   },
+   "prev": {
+    "href": "https://horizon-testnet.stellar.org/ledgers/5071650/operations?cursor=21782570886762497\u0026include_failed=false\u0026limit=200\u0026order=desc"
+   },
+   "self": {
+    "href": "https://horizon-testnet.stellar.org/ledgers/5071650/operations?cursor=\u0026include_failed=false\u0026limit=200\u0026order=asc"
+   }
+  }
+ },
+ "trimmed": [
+  "_embedded.records[]._links"
+ ]
+}
