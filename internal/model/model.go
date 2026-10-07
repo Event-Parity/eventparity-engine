@@ -137,7 +137,9 @@ type Stream struct {
 	Header      Header
 	Payments    []Payment
 	Unsupported map[string]int // total by operation type across the stream
-	Coverage    Coverage
+	// UnsupportedByLedger lets a comparison count unsupported operations only in ledgers both sides covered.
+	UnsupportedByLedger map[uint32]map[string]int
+	Coverage            Coverage
 }
 
 // SortedTypes returns the unsupported operation type names in a stable order.

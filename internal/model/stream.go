@@ -28,7 +28,7 @@ func Encode(w io.Writer, v any) error {
 func ReadStream(r io.Reader) (*Stream, error) {
 	sc := bufio.NewScanner(r)
 	sc.Buffer(make([]byte, 0, 64*1024), MaxLineBytes)
-	s := &Stream{Unsupported: map[string]int{}}
+	s := &Stream{Unsupported: map[string]int{}, UnsupportedByLedger: map[uint32]map[string]int{}}
 	line := 0
 	var haveHeader, haveCoverage bool
 	for sc.Scan() {
@@ -83,11 +83,19 @@ func ReadStream(r io.Reader) (*Stream, error) {
 			if err := dec.Decode(&n); err != nil {
 				return nil, fmt.Errorf("line %d: ledger note: %w", line, err)
 			}
+			if n.Ledger == 0 {
+				return nil, fmt.Errorf("line %d: ledger note without a ledger", line)
+			}
+			if s.UnsupportedByLedger[n.Ledger] != nil {
+				return nil, fmt.Errorf("line %d: second note for ledger %d", line, n.Ledger)
+			}
+			s.UnsupportedByLedger[n.Ledger] = map[string]int{}
 			for k, v := range n.Unsupported {
 				if v < 0 {
 					return nil, fmt.Errorf("line %d: negative unsupported count", line)
 				}
 				s.Unsupported[k] += v
+				s.UnsupportedByLedger[n.Ledger][k] = v
 			}
 		case "coverage":
 			if err := dec.Decode(&s.Coverage); err != nil {
