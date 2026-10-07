@@ -140,7 +140,7 @@ func TestRestartAfterACrashProducesTheSameStreamAsAnUninterruptedRun(t *testing.
 	_, want := read(t, clean.OutPath)
 
 	crash := cfg(t, src, 10, 19)
-	crash.afterWrite = func(l uint32) error {
+	crash.AfterWrite = func(l uint32) error {
 		if l == 14 {
 			return errors.New("simulated crash between write and checkpoint")
 		}
@@ -154,7 +154,7 @@ func TestRestartAfterACrashProducesTheSameStreamAsAnUninterruptedRun(t *testing.
 		t.Fatal("test setup: ledger 14's lines should already be on disk before the restart")
 	}
 
-	crash.afterWrite = nil
+	crash.AfterWrite = nil
 	if _, err := Run(context.Background(), crash); err != nil {
 		t.Fatal(err)
 	}

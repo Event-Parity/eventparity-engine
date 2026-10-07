@@ -41,8 +41,8 @@ type Config struct {
 	Tool           string
 	Log            func(format string, args ...any)
 
-	// afterWrite is a test hook called after a ledger's lines are written and synced, before the checkpoint is updated.
-	afterWrite func(ledger uint32) error
+	// AfterWrite is a fault-injection hook (used by tests) called after a ledger's lines are written and synced, before the checkpoint is updated.
+	AfterWrite func(ledger uint32) error
 }
 
 func (c *Config) defaults() {
@@ -147,8 +147,8 @@ func Run(ctx context.Context, cfg Config) (*model.Coverage, error) {
 			if err := f.Sync(); err != nil {
 				return err
 			}
-			if cfg.afterWrite != nil {
-				if err := cfg.afterWrite(d.Ledger); err != nil {
+			if cfg.AfterWrite != nil {
+				if err := cfg.AfterWrite(d.Ledger); err != nil {
 					return err
 				}
 			}
