@@ -1,0 +1,29 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - run: go vet ./...
+      - name: gofmt
+        run: test -z "$(gofmt -l .)"
+      - run: go build ./...
+      - run: go test ./... -count=1
+      - name: CLI smoke test on the recorded corpus
+        run: |
+          go build -o eventparity ./cmd/eventparity
+          ./eventparity compare --reference corpus/testnet-2026-10-07/horizon.jsonl --candidate corpus/testnet-2026-10-07/rpc.jsonl
+          set +e
+          ./eventparity compare --reference corpus/testnet-2026-10-07/horizon.jsonl --candidate corpus/testnet-2026-10-07/candidate-defective.jsonl >/dev/null
+          test $? -eq 1
