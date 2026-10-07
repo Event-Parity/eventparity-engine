@@ -1,0 +1,20 @@
+{
+ "method": "POST",
+ "url": "https://soroban-testnet.stellar.org",
+ "request": {
+  "id": 1,
+  "jsonrpc": "2.0",
+  "method": "getNetwork",
+  "params": {}
+ },
+ "status": 200,
+ "response": {
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+   "friendbotUrl": "https://friendbot.stellar.org/",
+   "passphrase": "Test SDF Network ; September 2015",
+   "protocolVersion": 29
+  }
+ }
+}
