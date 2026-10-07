@@ -7,3 +7,5 @@ coverage.out
 !.env.example
 .DS_Store
 out/
+*.checkpoint
+*.checkpoint.tmp
