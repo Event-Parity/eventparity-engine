@@ -32,6 +32,18 @@ func pageJSON(next string, recs ...string) string {
 	return `{"_links":{"next":{"href":"` + next + `"}},"_embedded":{"records":[` + strings.Join(recs, ",") + `]}}`
 }
 
+// listing serves what real Horizon does: the records, a next link, then an explicit empty page.
+func listing(recs ...string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		base := "http://" + r.Host + r.URL.Path
+		if r.URL.Query().Get("cursor") == "" {
+			fmt.Fprint(w, pageJSON(base+"?cursor=end", recs...))
+			return
+		}
+		fmt.Fprint(w, pageJSON(base+"?cursor=end"))
+	}
+}
+
 func newClient(t *testing.T, h http.HandlerFunc) *Client {
 	srv := httptest.NewServer(h)
 	t.Cleanup(srv.Close)
@@ -84,7 +96,7 @@ func TestOperationIdentityComesFromTheTOID(t *testing.T) {
 func TestIssuedAssetMuxedAndFailedTransactionHandling(t *testing.T) {
 	failed := `{"id":"` + toid(9, 1, 1) + `","type":"payment","transaction_hash":"` + hash1 + `","transaction_successful":false,"from":"` + alice + `","to":"` + bob + `","asset_type":"native","amount":"1.0000000"}`
 	issued := `{"id":"` + toid(9, 2, 1) + `","type":"payment","transaction_hash":"` + hash1 + `","transaction_successful":true,"from":"` + alice + `","to":"` + bob + `","to_muxed_id":"42","asset_type":"credit_alphanum4","asset_code":"USDX","asset_issuer":"` + iss + `","amount":"5"}`
-	c := newClient(t, func(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, pageJSON("", failed, issued)) })
+	c := newClient(t, listing(failed, issued))
 	d, err := c.Ledger(context.Background(), 9)
 	if err != nil {
 		t.Fatal(err)
@@ -183,10 +195,10 @@ func TestBoundsReadsHistoryWindowAndNetwork(t *testing.T) {
 func TestStreamEmitsEveryLedgerInOrderIncludingEmptyOnes(t *testing.T) {
 	c := newClient(t, func(w http.ResponseWriter, r *http.Request) {
 		if strings.Contains(r.URL.Path, "/ledgers/11/") {
-			fmt.Fprint(w, pageJSON("", payRec(11, 1, 0, "1.0000000")))
+			listing(payRec(11, 1, 0, "1.0000000"))(w, r)
 			return
 		}
-		fmt.Fprint(w, pageJSON(""))
+		listing()(w, r)
 	})
 	var got []uint32
 	var pays int
@@ -199,5 +211,35 @@ func TestStreamEmitsEveryLedgerInOrderIncludingEmptyOnes(t *testing.T) {
 func TestProviderIsOriginOnly(t *testing.T) {
 	if p := New("https://user:pw@horizon.example/path?key=secret").Provider(); p != "https://horizon.example" {
 		t.Fatalf("provider %q leaks credentials or path", p)
+	}
+}
+
+func TestIncompleteResponsesAreErrorsNotEmptyLedgers(t *testing.T) {
+	cases := map[string]http.HandlerFunc{
+		"empty object":             func(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, `{}`) },
+		"embedded without records": func(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, `{"_embedded":{},"_links":{}}`) },
+		"records without a next link": func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprint(w, pageJSON("", payRec(50, 1, 0, "1.0000000")))
+		},
+		"links without next": func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprint(w, `{"_links":{},"_embedded":{"records":[`+payRec(50, 1, 0, "1.0000000")+`]}}`)
+		},
+		"next link that never advances": func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprint(w, pageJSON("http://"+r.Host+r.URL.RequestURI(), payRec(50, 1, 0, "1.0000000")))
+		},
+	}
+	for name, h := range cases {
+		c := newClient(t, h)
+		if d, err := c.Ledger(context.Background(), 50); err == nil {
+			t.Errorf("%s: expected an error, got %d payments and no error", name, len(d.Payments))
+		}
+	}
+}
+
+func TestAnExplicitEmptyPageIsAnEmptyLedger(t *testing.T) {
+	c := newClient(t, listing())
+	d, err := c.Ledger(context.Background(), 50)
+	if err != nil || len(d.Payments) != 0 {
+		t.Fatalf("%+v %v", d, err)
 	}
 }

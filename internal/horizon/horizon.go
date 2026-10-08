@@ -161,16 +161,20 @@ type opRecord struct {
 	Amount      string `json:"amount"`
 }
 
+// page keeps absent fields distinguishable from empty ones: a body of `{}` is a malformed response, not an empty ledger.
 type page struct {
-	Links struct {
-		Next struct {
+	Links *struct {
+		Next *struct {
 			Href string `json:"href"`
 		} `json:"next"`
 	} `json:"_links"`
-	Embedded struct {
-		Records []opRecord `json:"records"`
+	Embedded *struct {
+		Records *[]opRecord `json:"records"`
 	} `json:"_embedded"`
 }
+
+// maxPages bounds paging for one ledger so a provider that never ends a listing cannot loop forever.
+const maxPages = 10_000
 
 // Ledger reads every successful operation in one ledger. Failed transactions are excluded by the request and again by the check below.
 func (c *Client) Ledger(ctx context.Context, seq uint32) (source.LedgerData, error) {
@@ -178,7 +182,10 @@ func (c *Client) Ledger(ctx context.Context, seq uint32) (source.LedgerData, err
 	out := source.LedgerData{Ledger: seq, Unsupported: map[string]int{}}
 	next := fmt.Sprintf("%s/ledgers/%d/operations?limit=%d&order=asc&include_failed=false", c.Base, seq, c.PageLimit)
 	seen := map[string]bool{}
-	for {
+	for pages := 0; ; pages++ {
+		if pages >= maxPages {
+			return out, fmt.Errorf("horizon: ledger %d: more than %d pages; refusing to continue", seq, maxPages)
+		}
 		body, err := c.get(ctx, next)
 		if err != nil {
 			return out, err
@@ -187,10 +194,14 @@ func (c *Client) Ledger(ctx context.Context, seq uint32) (source.LedgerData, err
 		if err := json.Unmarshal(body, &pg); err != nil {
 			return out, fmt.Errorf("horizon: ledger %d: %w", seq, err)
 		}
-		if len(pg.Embedded.Records) == 0 {
-			return out, nil
+		if pg.Embedded == nil || pg.Embedded.Records == nil {
+			return out, fmt.Errorf("horizon: ledger %d: response has no _embedded.records, so it cannot be treated as an empty ledger", seq)
 		}
-		for _, r := range pg.Embedded.Records {
+		records := *pg.Embedded.Records
+		if len(records) == 0 {
+			return out, nil // an explicit empty page is how Horizon ends a listing
+		}
+		for _, r := range records {
 			if seen[r.ID] {
 				return out, fmt.Errorf("horizon: ledger %d: operation %s returned twice while paging", seq, r.ID)
 			}
@@ -215,8 +226,11 @@ func (c *Client) Ledger(ctx context.Context, seq uint32) (source.LedgerData, err
 			}
 			out.Payments = append(out.Payments, p)
 		}
-		if pg.Links.Next.Href == "" || pg.Links.Next.Href == next {
-			return out, nil
+		if pg.Links == nil || pg.Links.Next == nil || pg.Links.Next.Href == "" {
+			return out, fmt.Errorf("horizon: ledger %d: a page of operations has no next link, so completeness cannot be established", seq)
+		}
+		if pg.Links.Next.Href == next {
+			return out, fmt.Errorf("horizon: ledger %d: the next link repeats the current page; paging made no progress", seq)
 		}
 		next = pg.Links.Next.Href
 	}

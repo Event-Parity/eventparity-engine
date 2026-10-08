@@ -301,3 +301,74 @@ func TestProviderIsOriginOnly(t *testing.T) {
 		t.Fatalf("provider %q", p)
 	}
 }
+
+// rawRPC serves fixed getTransactions results so malformed shapes can be tested.
+func rawRPC(t *testing.T, results ...string) *Client {
+	t.Helper()
+	i := 0
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body := results[min(i, len(results)-1)]
+		i++
+		fmt.Fprintf(w, `{"jsonrpc":"2.0","id":1,"result":%s}`, body)
+	}))
+	t.Cleanup(srv.Close)
+	c := New(srv.URL)
+	c.sleep = func(context.Context, time.Duration) error { return nil }
+	return c
+}
+
+func streamErr(c *Client, from, to uint32) error {
+	return c.Stream(context.Background(), from, to, func(source.LedgerData) error { return nil })
+}
+
+func TestMalformedOrNonTerminatingPagesAreErrorsNotCoverage(t *testing.T) {
+	cases := map[string][]string{
+		"empty result object":              {`{}`},
+		"no transactions key":              {`{"cursor":"1","latestLedger":100,"oldestLedger":1}`},
+		"empty page while behind the end":  {`{"transactions":[],"cursor":"1","latestLedger":5,"oldestLedger":1}`},
+		"empty page without latest ledger": {`{"transactions":[],"cursor":"1"}`},
+	}
+	for name, res := range cases {
+		if err := streamErr(rawRPC(t, res...), 10, 12); err == nil {
+			t.Errorf("%s: expected an error, ledgers would have been reported as covered", name)
+		}
+	}
+}
+
+func TestMissingOrRepeatedCursorStopsPaging(t *testing.T) {
+	f := &fakeRPC{pageSize: 1, oldest: 1, latest: 100, txs: []txRec{
+		{Status: "SUCCESS", TxHash: hashN(1), ApplicationOrder: 1, Ledger: 10, EnvelopeXdr: envelope(t, kpA, pay(kpB.Address(), nat, "1.0000000"))},
+		{Status: "SUCCESS", TxHash: hashN(2), ApplicationOrder: 1, Ledger: 11, EnvelopeXdr: envelope(t, kpA, pay(kpB.Address(), nat, "2.0000000"))},
+	}}
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var req struct {
+			Method string `json:"method"`
+		}
+		b, _ := io.ReadAll(r.Body)
+		json.Unmarshal(b, &req)
+		if req.Method != "getTransactions" {
+			f.handler(t)(w, r)
+			return
+		}
+		raw := []txRec{f.txs[0]}
+		cur := `""`
+		if strings.Contains(string(b), `"cursor":"1"`) || strings.Contains(string(b), `"cursor":"7"`) {
+			cur = `"7"` // repeats the cursor that was just sent
+		}
+		out, _ := json.Marshal(raw)
+		fmt.Fprintf(w, `{"jsonrpc":"2.0","id":1,"result":{"transactions":%s,"cursor":%s,"latestLedger":100,"oldestLedger":1}}`, out, cur)
+	}))
+	defer srv.Close()
+	c := New(srv.URL)
+	c.sleep = func(context.Context, time.Duration) error { return nil }
+	if err := streamErr(c, 10, 12); err == nil || !strings.Contains(err.Error(), "no cursor") {
+		t.Fatalf("a page with no cursor must be an error, got %v", err)
+	}
+}
+
+func TestAnEmptyPageAtTheEndOfTheRangeIsFine(t *testing.T) {
+	c := rawRPC(t, `{"transactions":[],"cursor":"1","latestLedger":100,"oldestLedger":1}`)
+	if err := streamErr(c, 10, 12); err != nil {
+		t.Fatal(err)
+	}
+}

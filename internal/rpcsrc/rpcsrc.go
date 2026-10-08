@@ -172,12 +172,16 @@ type rpcTx struct {
 	EnvelopeXdr      string `json:"envelopeXdr"`
 }
 
+// txPage keeps a missing `transactions` key distinguishable from an empty list.
 type txPage struct {
-	Transactions []rpcTx `json:"transactions"`
-	Cursor       string  `json:"cursor"`
-	LatestLedger uint32  `json:"latestLedger"`
-	OldestLedger uint32  `json:"oldestLedger"`
+	Transactions *[]rpcTx `json:"transactions"`
+	Cursor       string   `json:"cursor"`
+	LatestLedger uint32   `json:"latestLedger"`
+	OldestLedger uint32   `json:"oldestLedger"`
 }
+
+// maxRPCPages bounds paging so a provider that never ends the listing cannot loop forever.
+const maxRPCPages = 100_000
 
 // Stream emits every ledger in [from, to] in order. getTransactions returns transactions in ledger order starting at
 // startLedger; ledgers without transactions are emitted empty.
@@ -200,7 +204,10 @@ func (c *Client) Stream(ctx context.Context, from, to uint32, emit func(source.L
 	}
 
 	cursor := ""
-	for {
+	for pages := 0; ; pages++ {
+		if pages >= maxRPCPages {
+			return fmt.Errorf("rpc: more than %d pages; refusing to continue", maxRPCPages)
+		}
 		params := map[string]any{"pagination": map[string]any{"limit": c.PageLimit}}
 		if cursor == "" {
 			params["startLedger"] = from
@@ -215,11 +222,19 @@ func (c *Client) Stream(ctx context.Context, from, to uint32, emit func(source.L
 			}
 			return err
 		}
-		if len(pg.Transactions) == 0 {
+		if pg.Transactions == nil {
+			return fmt.Errorf("rpc: getTransactions response has no `transactions` list; refusing to treat it as an empty range")
+		}
+		txs := *pg.Transactions
+		if len(txs) == 0 {
+			// An empty page ends the listing only if the provider says it has reached the end of the range.
+			if pg.LatestLedger < to {
+				return fmt.Errorf("rpc: empty page but the provider's latest ledger %d is behind the requested end %d; the remaining ledgers are not known to be empty", pg.LatestLedger, to)
+			}
 			break
 		}
 		done := false
-		for _, tx := range pg.Transactions {
+		for _, tx := range txs {
 			if tx.Ledger > to {
 				done = true
 				break
@@ -237,8 +252,14 @@ func (c *Client) Stream(ctx context.Context, from, to uint32, emit func(source.L
 				return err
 			}
 		}
-		if done || pg.Cursor == "" || pg.Cursor == cursor {
+		if done {
 			break
+		}
+		if pg.Cursor == "" {
+			return fmt.Errorf("rpc: a page of transactions came back with no cursor, so completeness cannot be established")
+		}
+		if pg.Cursor == cursor {
+			return fmt.Errorf("rpc: the cursor repeated; paging made no progress")
 		}
 		cursor = pg.Cursor
 	}
