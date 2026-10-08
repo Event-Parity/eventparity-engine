@@ -80,9 +80,7 @@ func TestLedgerReadsPaymentsAcrossPagesAndCountsOtherTypes(t *testing.T) {
 }
 
 func TestOperationIdentityComesFromTheTOID(t *testing.T) {
-	c := newClient(t, func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, pageJSON("", payRec(77, 5, 3, "1.0000000")))
-	})
+	c := newClient(t, listing(payRec(77, 5, 3, "1.0000000")))
 	d, err := c.Ledger(context.Background(), 77)
 	if err != nil {
 		t.Fatal(err)
