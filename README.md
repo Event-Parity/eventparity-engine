@@ -73,6 +73,6 @@ Deterministic tests replay recorded real responses, so they run offline. Golden 
 
 ## Status
 
-Engineering complete for the declared version-one scope. Pushed to GitHub with CI green and a v0.1.0 release. Not done: review by an independent ingestion maintainer. See [SPEC.md](SPEC.md) and [docs/adr](docs/adr).
+Engineering complete for the declared version-one scope. Pushed to GitHub with CI green and releases v0.1.0, v0.1.1 and v0.1.2 (see CHANGELOG.md). Not done: review by an independent ingestion maintainer. See [SPEC.md](SPEC.md) and [docs/adr](docs/adr).
 
 MIT licensed. Contributing: [CONTRIBUTING.md](CONTRIBUTING.md). Security: [SECURITY.md](SECURITY.md).

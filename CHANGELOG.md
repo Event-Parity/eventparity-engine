@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.2
+- The RPC adapter now rejects a transaction record whose status is missing or is neither SUCCESS nor FAILED, and a successful record without a hash or envelope. Previously these were skipped like failed transactions, which could drop a payment while coverage still looked complete. Golden reports regenerated.
+
 ## 0.1.1
 - Both adapters now treat malformed, truncated or non-advancing provider responses as errors instead of empty or covered ledgers (missing `_embedded.records`, missing `next` link, repeated or missing RPC cursor, empty RPC page while the provider's latest ledger is behind the requested end). Golden reports regenerated with the new version stamp.
 
