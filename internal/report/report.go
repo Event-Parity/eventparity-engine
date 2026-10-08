@@ -21,7 +21,7 @@ const Version = "1"
 const ToolName = "eventparity-engine"
 
 // ToolVersion is set at build time or defaults to the development version.
-var ToolVersion = "0.1.0"
+var ToolVersion = "0.1.1"
 
 // Limitations are fixed statements included in every report.
 var Limitations = []string{
