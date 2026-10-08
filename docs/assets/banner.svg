@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-label="eventparity-engine">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a3b0c"/><stop offset="1" stop-color="#c46a1c"/></linearGradient></defs>
+  <rect width="1200" height="260" rx="14" fill="url(#g)"/>
+  <text x="60" y="110" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#ffffff">EventParity</text>
+  <text x="60" y="160" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#ffffff" fill-opacity="0.92">Show whether a Horizon-to-RPC payment migration lost or duplicated anything.</text>
+  <text x="60" y="215" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#ffffff" fill-opacity="0.8">eventparity-engine  ·  core library and CLI  ·  Stellar</text>
+</svg>
