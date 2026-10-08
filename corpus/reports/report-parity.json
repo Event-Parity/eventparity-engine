@@ -2,7 +2,7 @@
   "reportVersion": "1",
   "tool": {
     "name": "eventparity-engine",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "generatedAt": "2026-10-07T00:00:00Z",
   "scope": "classic-payments",
