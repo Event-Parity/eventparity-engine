@@ -1,6 +1,11 @@
+<p align="center"><img src="docs/assets/banner.svg" alt="eventparity-engine" width="100%"></p>
+
 # eventparity-engine
 
-**Documentation:** https://stellar-developer-tools.gitbook.io/eventparity-engine/
+[![CI](https://github.com/Event-Parity/eventparity-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/Event-Parity/eventparity-engine/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Release](https://img.shields.io/github/v/release/Event-Parity/eventparity-engine)](https://github.com/Event-Parity/eventparity-engine/releases)
+
+[Documentation](https://stellar-developer-tools.gitbook.io/eventparity-engine/) · [App repository](https://github.com/Event-Parity/eventparity-studio) · [Issues](https://github.com/Event-Parity/eventparity-engine/issues) · [Discussions](https://github.com/Event-Parity/eventparity-engine/discussions)
+
 
 Change your Stellar data source without silently changing your records.
 
@@ -12,7 +17,7 @@ EventParity compares the **classic payments** that two sources report for the sa
 - **Exact identity and amounts.** Amounts are integer stroops internally and canonical 7-decimal strings in streams; no floating point. Assets are code plus issuer; the same code from a different issuer is a different asset.
 - **Coverage and checkpoints.** Every stream ends with a coverage line accounting for each requested ledger exactly once (covered or gap, with the reason). Providers keep finite history (testnet RPC keeps about 7 days), so out-of-window ledgers become gaps. Fetches checkpoint after every ledger and resume after a crash without duplicating or skipping a ledger (tested by killing a real adapter run mid-ledger).
 - **Honest verdicts.** `parity` (every covered ledger matched, no gaps), `differences`, or `inconclusive` (gaps exist and nothing differs in what was compared).
-- **Reports** as JSON (published [schema](schema/report.v1.schema.json)), plain text and self-contained HTML. A viewer lives in [eventparity-studio](https://github.com/Anasabubakar/eventparity-studio).
+- **Reports** as JSON (published [schema](schema/report.v1.schema.json)), plain text and self-contained HTML. A viewer lives in [eventparity-studio](https://github.com/Event-Parity/eventparity-studio).
 - **Bring your own candidate.** Your pipeline writes a JSON Lines stream in the documented format; `eventparity compare` tells you how it differs from Horizon or RPC. A candidate without a coverage line is refused: a stream that does not declare what it covers cannot be compared honestly.
 
 ## Install and run
@@ -20,7 +25,7 @@ EventParity compares the **classic payments** that two sources report for the sa
 Needs Go 1.25 or newer (the Stellar Go SDK requires it; with an older Go installed, `GOTOOLCHAIN=auto` fetches 1.25.0 on demand).
 
 ```bash
-git clone https://github.com/Anasabubakar/eventparity-engine.git
+git clone https://github.com/Event-Parity/eventparity-engine.git
 cd eventparity-engine
 go build -o eventparity ./cmd/eventparity
 
@@ -79,8 +84,44 @@ Engineering complete for the declared version-one scope. Pushed to GitHub with C
 
 MIT licensed. Contributing: [CONTRIBUTING.md](CONTRIBUTING.md). Security: [SECURITY.md](SECURITY.md).
 
+## Repository layout
+
+- `cmd/`: command-line entry point
+- `corpus/`: recorded testnet corpus and golden reports
+- `docs/`: decision records (ADRs), evidence and assets
+- `gitbook/`: source of the GitBook documentation
+- `internal/`: Go packages
+- `schema/`: JSON Schemas, generated and checked in CI
+- `test/`: tests
+- `tools/`: corpus and recording tools
+
+## Documentation
+
+The full documentation is at https://stellar-developer-tools.gitbook.io/eventparity-engine/. It is built from the `gitbook/` folder of this repository and synced from `main`, so a fix to a page is a pull request here.
+
+## Contributing
+
+Open issues are scoped so one person can finish one in a single cycle, and each lists acceptance criteria. Read [CONTRIBUTING.md](CONTRIBUTING.md), pick an issue from the [issue list](https://github.com/Event-Parity/eventparity-engine/issues), and say you are taking it before you start. Security reports go through [SECURITY.md](SECURITY.md), not public issues.
+
+## Maintainers
+
+| Maintainer | Role | GitHub |
+|---|---|---|
+| Anas Abubakar | Lead maintainer | [@Anasabubakar](https://github.com/Anasabubakar) |
+| Abdulbasit Fazazi | Co-maintainer | [@fazaziishola-coder](https://github.com/fazaziishola-coder) |
+
+## Community
+
+Questions and design discussion go in [GitHub Discussions](https://github.com/Event-Parity/eventparity-engine/discussions). Bugs and scoped work go in [Issues](https://github.com/Event-Parity/eventparity-engine/issues).
+
+## License
+
+MIT. See [LICENSE](LICENSE).
+
 ## Contributors
 
-<a href="https://github.com/Anasabubakar/eventparity-engine/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Anasabubakar/eventparity-engine" alt="Contributors to eventparity-engine" />
+Thanks to all the contributors who have made this project possible.
+
+<a href="https://github.com/Event-Parity/eventparity-engine/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Event-Parity/eventparity-engine" alt="Contributors to eventparity-engine" />
 </a>
