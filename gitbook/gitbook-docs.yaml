@@ -1,0 +1,35 @@
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: eventparity-engine
+  structure:
+    - type: space
+      key: space-introduction
+      title: Introduction
+      path: introduction
+      default: true
+      content:
+        directory: ./introduction
+    - type: space
+      key: space-guide
+      title: Guide
+      path: guide
+      content:
+        directory: ./guide
+    - type: space
+      key: space-reference
+      title: Reference
+      path: reference
+      content:
+        directory: ./reference
+    - type: space
+      key: space-decisions
+      title: Design decisions
+      path: decisions
+      content:
+        directory: ./decisions
+    - type: space
+      key: space-project
+      title: Project
+      path: project
+      content:
+        directory: ./project
