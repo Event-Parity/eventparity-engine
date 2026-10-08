@@ -76,3 +76,9 @@ Deterministic tests replay recorded real responses, so they run offline. Golden 
 Engineering complete for the declared version-one scope. Pushed to GitHub with CI green and releases v0.1.0, v0.1.1 and v0.1.2 (see CHANGELOG.md). Not done: review by an independent ingestion maintainer. See [SPEC.md](SPEC.md) and [docs/adr](docs/adr).
 
 MIT licensed. Contributing: [CONTRIBUTING.md](CONTRIBUTING.md). Security: [SECURITY.md](SECURITY.md).
+
+## Contributors
+
+<a href="https://github.com/Anasabubakar/eventparity-engine/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Anasabubakar/eventparity-engine" alt="Contributors to eventparity-engine" />
+</a>
