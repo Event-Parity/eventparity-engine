@@ -372,3 +372,21 @@ func TestAnEmptyPageAtTheEndOfTheRangeIsFine(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestAbsentOrUnknownTransactionStatusIsAnErrorNotAFailedTransaction(t *testing.T) {
+	tx := func(fields string) string {
+		return `{"transactions":[{` + fields + `}],"cursor":"1","latestLedger":100,"oldestLedger":1}`
+	}
+	cases := map[string]string{
+		"missing status":           tx(`"txHash":"` + hashN(1) + `","applicationOrder":1,"ledger":10,"envelopeXdr":"AAAA"`),
+		"unknown status":           tx(`"status":"PENDING","txHash":"` + hashN(1) + `","applicationOrder":1,"ledger":10,"envelopeXdr":"AAAA"`),
+		"lower-case status":        tx(`"status":"success","txHash":"` + hashN(1) + `","applicationOrder":1,"ledger":10,"envelopeXdr":"AAAA"`),
+		"success without hash":     tx(`"status":"SUCCESS","applicationOrder":1,"ledger":10,"envelopeXdr":"AAAA"`),
+		"success without envelope": tx(`"status":"SUCCESS","txHash":"` + hashN(1) + `","applicationOrder":1,"ledger":10`),
+	}
+	for name, res := range cases {
+		if err := streamErr(rawRPC(t, res), 10, 12); err == nil {
+			t.Errorf("%s: expected an error, the record would have been skipped while coverage looked complete", name)
+		}
+	}
+}

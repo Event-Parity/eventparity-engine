@@ -245,8 +245,17 @@ func (c *Client) Stream(ctx context.Context, from, to uint32, emit func(source.L
 			if err := flushThrough(tx.Ledger); err != nil {
 				return err
 			}
-			if tx.Status != "SUCCESS" {
+			// Only the two documented outcomes are understood. A missing or unknown status must not be
+			// mistaken for a failed transaction: that would drop a payment while coverage still looks complete.
+			switch tx.Status {
+			case "SUCCESS":
+			case "FAILED":
 				continue
+			default:
+				return fmt.Errorf("rpc: transaction %q in ledger %d has status %q, expected SUCCESS or FAILED", tx.TxHash, tx.Ledger, tx.Status)
+			}
+			if tx.TxHash == "" || tx.EnvelopeXdr == "" {
+				return fmt.Errorf("rpc: a successful transaction in ledger %d is missing its hash or envelope", tx.Ledger)
 			}
 			if err := decodeTx(tx, &cur); err != nil {
 				return err
